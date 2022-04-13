@@ -36,18 +36,26 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $request->validate([
-            'title' =>'required|max:255',
-            'description' =>'required|max:255',
-            'thumb' =>'required|url|max:255',
-            'price' =>'required|numeric|min:1',
-            'series' =>'required|max:255',
-            'sale_date' =>'required|date|',
-            'type' =>'required|max:255|',
-        ]);
+        
+            //definisco delle validazioni utilizzando il metodo validate di request
+            $request->validate(
+                //array associativo con validazioni
+                [
+                'title' =>'required|max:255',
+                'description' =>'required|max:255',
+                'thumb' =>'required|url|max:255',
+                'price' =>'required|numeric|min:1',
+                'series' =>'required|max:255',
+                'sale_date' =>'required|date|',
+                'type' =>'required|max:255|',
+                ]
+            );
 
+            // salvo in data array associativo con dati inseriti nel form
+            $data = $request->all();
+            //nuova istanza comic da salvare nel DB
             $newComic = new Comic();
+            
             $newComic->fill($data);
             $newComic->save();
     
@@ -83,9 +91,32 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, Comic $comic)
     {
-        //
+        $data = $request->all();
+        //definisco delle validazioni utilizzando il metodo validate di request
+        $request->validate([
+            //array associativo con validazioni
+            'title' =>'required|max:255',
+            'description' =>'required|max:255',
+            'thumb' =>'required|url|max:255',
+            'price' =>'required|numeric|min:1',
+            'series' =>'required|max:255',
+            'sale_date' =>'required|date|',
+            'type' =>'required|max:255|',
+        ]);
+
+        //recupero dati form
+        $data = $request->all();
+
+        // faccio update con i data
+        $comic->update($data);
+
+        $comic->save();
+
+        //definisco pagina ri return: la pagina con il comic modificato
+        return redirect()->route('comic.index');
     }
 
     /**
@@ -94,8 +125,10 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comic $comic)
     {
-        //
+        $comic->delete();
+
+        return redirect()->route('comic.index')->with('status', 'Cancellazione avvenuta con successo!');
     }
 }
