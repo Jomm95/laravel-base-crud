@@ -44,6 +44,7 @@ class ComicController extends Controller
             'price' =>'required|numeric|min:1',
             'series' =>'required|max:255',
             'sale_date' =>'required|date|',
+            'type' =>'required|max:255|',
         ]);
 
             $newComic = new Comic();
@@ -70,9 +71,9 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comic $comic)
     {
-        
+        return view('comics.edit' , compact('comic'));
     }
 
     /**
