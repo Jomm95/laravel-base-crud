@@ -1,16 +1,20 @@
 @extends('layouts.base')
 
-@section('pageTitle', 'Create new comic')
+@section('pageTitle')
+Modifica: {{$comic->title}}
+
+@endsection
 
 @section('content')
 
     <div class="container">
 
-        <h1>Nuovo Comic</h1>
+        <h1>Modifica: {{$comic->title}}</h1>
 
-        <form method="POST" action="{{route('comic.store')}}">
+        <form method="POST" action="{{route('comic.update', $comic->id)}}">
 
             @csrf
+            @method('PUT') 
 
             <div class="mb-3">
                 <label for="title">Titolo</label>
@@ -31,7 +35,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="thumb">Thumbnail Url</label>
+                <label for="thumb">Immagine Url</label>
                 <input type="text" class="form-control" id="thumb" name="thumb" placeholder="url" value="{{old('thumb')}}">
             </div>
 

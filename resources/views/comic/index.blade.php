@@ -40,6 +40,7 @@
                     <td>{{$comic->sale_date}}</td>
                     <td>
                         <a class="btn btn-primary" href="{{route('comic.show', $comic->id) }}" role="button">Vedi</a>
+                        <a class="btn btn-warning" href="{{route('comic.edit', $comic->id) }}" role="button">Modifica</a>
                     </td>
                 </tr>
                 
